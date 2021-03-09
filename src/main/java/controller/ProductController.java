@@ -51,4 +51,11 @@ public class ProductController {
         productService.save(product);
         return modelAndView;
     }
+    @GetMapping("delete/{id}")
+    public ModelAndView deleteCustomer(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/products");
+        productService.deleteById(id);
+        return modelAndView;
+    }
+
 }
