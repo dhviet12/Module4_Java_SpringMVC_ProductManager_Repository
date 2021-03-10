@@ -18,12 +18,12 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> findAll() {
-        return (List<Product>) productRepository.findAll();
+        return  productRepository.findAll();
     }
 
     @Override
     public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+        return productRepository.findAllByOrderByIdAsc(pageable);
     }
 
     @Override

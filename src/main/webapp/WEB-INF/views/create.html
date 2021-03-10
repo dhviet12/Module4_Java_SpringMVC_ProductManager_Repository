@@ -15,6 +15,12 @@
     <input th:field="*{price}" type="number" name="priceP" id="priceP" placeholder="enter price">
     <br>
     <br>
+    <label for="cateP">Category of product</label>
+    <select name="cateP" id="cateP" th:field="*{category}">
+        <th:block th:each="cate:${categorylist}">
+            <option th:value="${cate.id}" th:text="${cate.name}"></option>
+        </th:block>
+    </select>
     <input type="submit" value="Create">
 </form>
 </body>

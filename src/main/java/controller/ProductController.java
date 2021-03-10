@@ -1,5 +1,6 @@
 package controller;
 
+import model.Category;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import service.category.ICategoryService;
 import service.product.IProductService;
 
 import java.util.List;
@@ -19,21 +21,30 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
+    @Autowired
+    private ICategoryService categoryService;
+
+    @ModelAttribute("categorylist")
+    public List<Category> categoryList() {
+        return categoryService.findAll();
+    }
+
     @GetMapping
-    public ModelAndView showAll(@PageableDefault Pageable pageable){
+    public ModelAndView showAll(@PageableDefault Pageable pageable) {
         Page<Product> list = productService.findAll(pageable);
-        return new ModelAndView("list","list",list);
+        return new ModelAndView("list", "list", list);
+
     }
 
     @GetMapping("/create")
-    public ModelAndView showFormCreateProduct(){
+    public ModelAndView showFormCreateProduct() {
         ModelAndView modelAndView = new ModelAndView("create");
-        modelAndView.addObject("product",new Product());
-        return  modelAndView;
+        modelAndView.addObject("product", new Product());
+        return modelAndView;
     }
 
     @PostMapping("/create")
-    public ModelAndView createProduct(@ModelAttribute Product product){
+    public ModelAndView createProduct(@ModelAttribute Product product) {
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
         productService.save(product);
         return modelAndView;
@@ -47,6 +58,7 @@ public class ProductController {
         modelAndView.addObject("product", product);
         return modelAndView;
     }
+
     @PostMapping("/edit/{id}")
     public ModelAndView editCustomer(@ModelAttribute Product product, @PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
@@ -54,6 +66,7 @@ public class ProductController {
         productService.save(product);
         return modelAndView;
     }
+
     @GetMapping("/delete/{id}")
     public ModelAndView deleteCustomer(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
@@ -62,9 +75,9 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ModelAndView searchByProductName(@RequestParam String search){
+    public ModelAndView searchByProductName(@RequestParam String search) {
         List<Product> list = productService.findProductName(search);
-        return new ModelAndView("list","list",list);
+        return new ModelAndView("list", "list", list);
     }
 
 }
