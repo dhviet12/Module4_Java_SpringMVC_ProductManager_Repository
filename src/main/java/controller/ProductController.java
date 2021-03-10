@@ -2,10 +2,13 @@ package controller;
 
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import service.IProductService;
+import service.product.IProductService;
 
 import java.util.List;
 
@@ -17,8 +20,8 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping
-    public ModelAndView showAll(){
-        List<Product> list = productService.findAll();
+    public ModelAndView showAll(@PageableDefault Pageable pageable){
+        Page<Product> list = productService.findAll(pageable);
         return new ModelAndView("list","list",list);
     }
 
@@ -51,11 +54,17 @@ public class ProductController {
         productService.save(product);
         return modelAndView;
     }
-    @GetMapping("delete/{id}")
+    @GetMapping("/delete/{id}")
     public ModelAndView deleteCustomer(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
-        productService.deleteById(id);
+        productService.delete(id);
         return modelAndView;
+    }
+
+    @GetMapping("/search")
+    public ModelAndView searchByProductName(@RequestParam String search){
+        List<Product> list = productService.findProductName(search);
+        return new ModelAndView("list","list",list);
     }
 
 }

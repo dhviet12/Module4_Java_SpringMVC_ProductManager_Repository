@@ -1,23 +1,21 @@
 package model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-public class Product {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    private double price;
 
-
-    public Product() {
+    public Category() {
     }
 
-    public Product(long id, String name, double price) {
+    public Category(long id, String name) {
         this.id = id;
         this.name = name;
-        this.price = price;
     }
 
     public long getId() {
@@ -36,21 +34,14 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    @OneToMany
+    private List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-    @ManyToOne
-    private Category category;
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

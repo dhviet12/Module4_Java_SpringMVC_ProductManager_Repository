@@ -18,14 +18,15 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-import service.IProductService;
-import service.ProductService;
+import service.category.CategoryService;
+import service.category.ICategoryService;
+import service.product.IProductService;
+import service.product.ProductService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -81,6 +82,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
         viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
     }
+
     //JPA configuration
     @Bean
     @Qualifier(value = "entityManager")
@@ -101,17 +103,17 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/product_manager_repo");
-        dataSource.setUsername( "root" );
-        dataSource.setPassword( "121097" );
+        dataSource.setUsername("root");
+        dataSource.setPassword("121097");
         return dataSource;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
@@ -123,8 +125,16 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         return properties;
     }
+
     @Bean
-    public IProductService productService(){
+    public IProductService productService() {
         return new ProductService();
     }
+
+    @Bean
+    public ICategoryService categoryService() {
+        return new CategoryService();
+    }
+
+
 }
