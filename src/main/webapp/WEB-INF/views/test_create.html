@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin-top: 30px;
+        }
+        form{
+            margin-left: 300px;
+            width: 600px;
+            height: 300px;
+        }
+    </style>
+
+</head>
+<body>
+<a type="button" class="btn btn-info" href="/products">Back to List Product</a>
+<form method="post" th:object="${product}">
+    <div class="mb-3">
+        <label for="nameP" class="form-label">Name product</label>
+        <input type="text" class="form-control" id="nameP" name="nameP" th:field="*{name}">
+    </div>
+    <div class="mb-3">
+        <label for="priceP" class="form-label">Price</label>
+        <input type="number" class="form-control" id="priceP" name="priceP" th:field="*{price}">
+    </div>
+    <div class="mb-3">
+        <label for="cateP" class="form-label">Category</label>
+        <select name="cateP" id="cateP" th:field="*{category}">
+            <th:block th:each="cate:${categorylist}">
+                <option th:value="${cate.id}" th:text="${cate.name}"></option>
+            </th:block>
+        </select>
+    </div>
+    <input class="btn btn-primary" type="submit" value="Create">
+</form>
+
+
+
+</body>
+</html>

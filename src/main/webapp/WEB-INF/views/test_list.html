@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List product</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<form action="/products/search">
+    <input type="text" name="search" id="search" placeholder="type name product">
+    <input type="submit" name="submit" id="submit" value="Search">
+</form>
+<br>
+<a class="btn btn-primary" href="/products/create" role="button">Create Product</a>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Category</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p:${list}">
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.price}"></td>
+        <td th:text="${p.category.name}"></td>
+        <td>
+            <a class="btn btn-success" role="button" th:href="@{'/products/edit/'+${p.id}}">Edit</a>
+            <a class="btn btn-danger" role="button" th:href="@{'/products/delete/'+${p.id}}"
+               onclick="return confirm('Are you sure to delete this product ?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div>
+   <h3>
+       <a th:href="@{'/products'(page=${list.number - 1})}" th:if="${list.hasPrevious()}">Previous</a>
+       <span th:text="${list.number + 1}"></span>/<span th:text="${list.totalPages}"></span>
+       <a th:href="@{'/products'(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a>
+   </h3>
+</div>
+
+</body>
+</html>

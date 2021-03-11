@@ -38,15 +38,15 @@ public class ProductController {
     }
 
     @GetMapping
-    public ModelAndView showAll(@PageableDefault Pageable pageable) {
+    public ModelAndView showAll(@PageableDefault(size = 5) Pageable pageable) {
         Page<Product> list = productService.findAll(pageable);
-        return new ModelAndView("list", "list", list);
+        return new ModelAndView("test_list", "list", list);
 
     }
 
     @GetMapping("/create")
     public ModelAndView showFormCreateProduct() throws NotFound {
-        ModelAndView modelAndView = new ModelAndView("create");
+        ModelAndView modelAndView = new ModelAndView("test_create");
         modelAndView.addObject("product", new Product());
         return modelAndView;
     }
@@ -54,7 +54,7 @@ public class ProductController {
     @PostMapping("/create")
     public ModelAndView createProduct(@Validated @ModelAttribute Product product, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
-            return new ModelAndView("create");
+            return new ModelAndView("test_create");
 
         }
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
@@ -65,7 +65,7 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView showEditForm(@PathVariable Long id) throws NotFound {
-        ModelAndView modelAndView = new ModelAndView("edit");
+        ModelAndView modelAndView = new ModelAndView("test_edit");
         Product product = productService.findById(id);
         modelAndView.addObject("product", product);
         return modelAndView;
@@ -89,7 +89,7 @@ public class ProductController {
     @GetMapping("/search")
     public ModelAndView searchByProductName (@RequestParam String search) throws NotFound {
         List<Product> list = productService.findProductName(search);
-        return new ModelAndView("list", "list", list);
+        return new ModelAndView("test_list", "list", list);
     }
 
 }
