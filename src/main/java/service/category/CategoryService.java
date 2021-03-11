@@ -1,6 +1,8 @@
 package service.category;
 
+import exception.NotFound;
 import model.Category;
+import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.ICategoryRepository;
@@ -12,6 +14,7 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository categoryRepository;
 
+
     @Override
     public List<Category> findAll() {
 
@@ -19,8 +22,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category findById(Long id) {
-        return categoryRepository.findOne(id);
+    public Category findById(Long id) throws NotFound {
+        Category category = categoryRepository.findOne(id);
+        if (category != null) {
+            return category;
+        } else throw new NotFound();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package formater;
 
+import exception.NotFound;
+import javassist.NotFoundException;
 import model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
@@ -17,8 +19,13 @@ public class CategoryFormater implements Formatter<Category> {
     }
 
     @Override
-    public Category parse(String text, Locale locale) throws ParseException {
-        return categoryService.findById(Long.parseLong(text));
+    public Category parse(String text, Locale locale) {
+        try {
+            return categoryService.findById(Long.parseLong(text));
+        } catch (NotFound notFound) {
+            notFound.printStackTrace();
+        }
+        return null;
     }
 
     @Override

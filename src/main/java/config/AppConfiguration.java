@@ -1,5 +1,6 @@
 package config;
 
+import aspect.MyLogger;
 import formater.CategoryFormater;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +9,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
@@ -41,6 +43,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaRepositories("repository")
 @EnableSpringDataWebSupport
+@EnableAspectJAutoProxy
 public class AppConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
@@ -137,6 +140,9 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
     public ICategoryService categoryService() {
         return new CategoryService();
     }
+
+    @Bean
+    public MyLogger myLogger(){return new MyLogger();}
 
     // new
     @Override

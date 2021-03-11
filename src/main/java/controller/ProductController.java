@@ -1,5 +1,6 @@
 package controller;
 
+import exception.NotFound;
 import model.Category;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.util.Validate;
 import service.category.ICategoryService;
 import service.product.IProductService;
 
@@ -32,6 +32,11 @@ public class ProductController {
         return categoryService.findAll();
     }
 
+    @ExceptionHandler(NotFound.class)
+    public ModelAndView showNotFound() {
+        return new ModelAndView("notfound");
+    }
+
     @GetMapping
     public ModelAndView showAll(@PageableDefault Pageable pageable) {
         Page<Product> list = productService.findAll(pageable);
@@ -40,7 +45,7 @@ public class ProductController {
     }
 
     @GetMapping("/create")
-    public ModelAndView showFormCreateProduct() {
+    public ModelAndView showFormCreateProduct() throws NotFound {
         ModelAndView modelAndView = new ModelAndView("create");
         modelAndView.addObject("product", new Product());
         return modelAndView;
@@ -59,7 +64,7 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView showEditForm(@PathVariable Long id) {
+    public ModelAndView showEditForm(@PathVariable Long id) throws NotFound {
         ModelAndView modelAndView = new ModelAndView("edit");
         Product product = productService.findById(id);
         modelAndView.addObject("product", product);
@@ -82,7 +87,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ModelAndView searchByProductName(@RequestParam String search) {
+    public ModelAndView searchByProductName (@RequestParam String search) throws NotFound {
         List<Product> list = productService.findProductName(search);
         return new ModelAndView("list", "list", list);
     }

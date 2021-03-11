@@ -1,5 +1,6 @@
 package service.product;
 
+import exception.NotFound;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,8 +28,12 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product findById(Long id) {
-        return productRepository.findOne(id);
+    public Product findById(Long id) throws NotFound {
+        Product product = productRepository.findOne(id);
+        if (product != null){
+            return product;
+        }
+        else throw new NotFound();
     }
 
     @Override
