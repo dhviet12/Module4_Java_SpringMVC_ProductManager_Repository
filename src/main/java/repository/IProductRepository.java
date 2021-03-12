@@ -1,5 +1,6 @@
 package repository;
 
+import model.Category;
 import model.Product;
 
 import org.springframework.data.domain.Page;
@@ -15,16 +16,19 @@ import java.util.List;
 public interface IProductRepository extends JpaRepository<Product, Long> {
 
 
-
     Page<Product> findAllByOrderByIdAsc(Pageable pageable);
 
+    List<Product> findTop5ByOrderByPriceDesc();
 
+    @Query(value = "select * from product order by date desc limit 5;", nativeQuery = true)
+    List<Product> findTop5ByDate();
 
-    //Tìm kiếm sản phẩm theo tên
     @Query(value = "select * " +
             "from product " +
             "where product.name like ?1 ", nativeQuery = true)
     List<Product> findProductName(String name);
+
+    List<Product> findAllByCategory(Category category);
 
 
 }

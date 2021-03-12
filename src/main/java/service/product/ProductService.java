@@ -1,6 +1,7 @@
 package service.product;
 
 import exception.NotFound;
+import model.Category;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,4 +53,21 @@ public class ProductService implements IProductService {
         name = "%"+ name +"%";
         return productRepository.findProductName(name);
     }
+
+    @Override
+    public List<Product> findAllByCategory(Category category) {
+        return productRepository.findAllByCategory(category);
+    }
+
+    @Override
+    public List<Product> findTop5ByPrice() {
+        return productRepository.findTop5ByOrderByPriceDesc();
+    }
+
+    @Override
+    public List<Product> findTop5ByDate() {
+        return productRepository.findTop5ByDate();
+    }
+
+
 }

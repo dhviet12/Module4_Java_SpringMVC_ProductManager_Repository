@@ -2,25 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>List product</title>
+    <title>Top5</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-<form th:action="@{/products/search}">
-    <select th:name="category" th:id="category">
-        <th:block th:each="category:${categorylist}">
-            <option th:value="${category.id}" th:text="${category.name}"></option>
-        </th:block>
-    </select>
-    <input type="submit" value="search">
-</form>
-<br>
-<a class="btn btn-primary" href="/products/create" role="button">Create Product</a>
-<a type="button" class="btn btn-success" href="/products/top5byprice">Top 5 highest price</a>
-<a type="button" class="btn btn-warning" href="/products/top5bydate">Top 5 newest price</a>
-
+<a type="button" class="btn btn-info" href="/products">Back to List Product</a>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -56,7 +44,6 @@
         <a th:href="@{'/products'(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a>
     </h3>
 </div>
-
 
 </body>
 </html>

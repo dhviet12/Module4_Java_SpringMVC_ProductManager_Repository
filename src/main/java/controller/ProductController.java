@@ -40,13 +40,13 @@ public class ProductController {
     @GetMapping
     public ModelAndView showAll(@PageableDefault(size = 5) Pageable pageable) {
         Page<Product> list = productService.findAll(pageable);
-        return new ModelAndView("test_list", "list", list);
+        return new ModelAndView("list", "list", list);
 
     }
 
     @GetMapping("/create")
     public ModelAndView showFormCreateProduct() throws NotFound {
-        ModelAndView modelAndView = new ModelAndView("test_create");
+        ModelAndView modelAndView = new ModelAndView("create");
         modelAndView.addObject("product", new Product());
         return modelAndView;
     }
@@ -54,7 +54,7 @@ public class ProductController {
     @PostMapping("/create")
     public ModelAndView createProduct(@Validated @ModelAttribute Product product, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
-            return new ModelAndView("test_create");
+            return new ModelAndView("create");
 
         }
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
@@ -65,7 +65,7 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView showEditForm(@PathVariable Long id) throws NotFound {
-        ModelAndView modelAndView = new ModelAndView("test_edit");
+        ModelAndView modelAndView = new ModelAndView("edit");
         Product product = productService.findById(id);
         modelAndView.addObject("product", product);
         return modelAndView;
@@ -87,9 +87,25 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ModelAndView searchByProductName (@RequestParam String search) throws NotFound {
-        List<Product> list = productService.findProductName(search);
-        return new ModelAndView("test_list", "list", list);
+    public ModelAndView searchByProductName(@ModelAttribute Category category) {
+        List<Product> list = productService.findAllByCategory(category);
+        return new ModelAndView("list", "list", list);
+    }
+
+    @GetMapping("/top5byprice")
+    public ModelAndView showProductByPrice() {
+        ModelAndView modelAndView = new ModelAndView("top5price");
+        List<Product> productList = productService.findTop5ByPrice();
+        modelAndView.addObject("list", productList);
+        return modelAndView;
+    }
+
+    @GetMapping("/top5bydate")
+    public ModelAndView showProductByDate() {
+        ModelAndView modelAndView = new ModelAndView("top5date");
+        List<Product> productList = productService.findTop5ByDate();
+        modelAndView.addObject("list", productList);
+        return modelAndView;
     }
 
 }

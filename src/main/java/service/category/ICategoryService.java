@@ -5,4 +5,5 @@ import service.IService;
 
 public interface ICategoryService extends IService<Category> {
     Category findByName(String name);
+
 }

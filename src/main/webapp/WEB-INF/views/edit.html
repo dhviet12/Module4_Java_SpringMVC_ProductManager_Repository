@@ -2,29 +2,52 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit product</title>
+    <title>Edit</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        form {
+            width: 400px;
+            height: 200px;
+        }
+    </style>
 </head>
 <body>
-<a href="/products"><h2>Back to Product list</h2></a>
-<h2>Edit Product information</h2>
+<a type="button" class="btn btn-info" href="/products">Back to List Product</a>
 <form th:object="${product}" method="post">
-    <label for="edit_name">Name of product: </label>
-    <input type="text" id="edit_name" name="edit_name" th:field="${product.name}">
-    <br>
-    <br>
-    <label for="edit_price">Price of product: </label>
-    <input type="text" id="edit_price" name="edit_price" th:field="${product.price}">
-    <br>
-    <br>
-    <label for="edit_cate">Category of Product </label>
-    <select name="edit_cate" id="edit_cate" th:field="*{category}">
-        <th:block th:each="cate:${categorylist}">
-            <option th:value="${cate.id}" th:text="${cate.name}"></option>
-        </th:block>
-    </select>
-    <br>
-    <br>
-    <button type="submit">Edit</button>
+    <div class="mb-3">
+        <label for="edit_name" class="form-label">Name product</label>
+        <input type="text" class="form-control" id="edit_name" name="edit_name" th:field="${product.name}">
+    </div>
+    <div class="mb-3">
+        <label for="edit_price" class="form-label">Price product</label>
+        <input type="number" class="form-control" id="edit_price" name="edit_price" th:field="${product.price}">
+    </div>
+    <div class="mb-3">
+        <label for="edit_cate" class="form-label">Category product</label>
+        <select name="edit_cate" id="edit_cate" th:field="*{category}">
+            <th:block th:each="cate:${categorylist}">
+                <option th:value="${cate.id}" th:text="${cate.name}"></option>
+            </th:block>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="edit_description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="edit_description" name="edit_description"
+               th:field="${product.description}">
+    </div>
+    <div class="mb-3">
+        <label for="edit_date" class="form-label">Date</label>
+        <input type="date" class="form-control" id="edit_date" name="edit_date" th:field="${product.date}">
+    </div>
+    <div class="mb-3">
+        <label for="edit_quantity" class="form-label">Quantiy</label>
+        <input type="number" class="form-control" id="edit_quantity" name="edit_quantity"
+               th:field="${product.quantity}">
+    </div>
+
+    <input class="btn btn-primary" type="submit" value="Edit">
 </form>
 
 </body>
